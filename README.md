@@ -1,4 +1,4 @@
-# lecture_link
+# Lecture Link
 
 A new Flutter project.
 
