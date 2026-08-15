@@ -2,34 +2,35 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lecture_link/data/services/auth_service.dart';
 import 'package:lecture_link/ui/screens/home_screen.dart';
-import 'package:lecture_link/ui/screens/sign_up_screen.dart';
 import 'package:lecture_link/ui/widgets/appbar_banner.dart';
 import 'package:lecture_link/ui/widgets/custom_text_form_field.dart';
+import 'package:lecture_link/ui/widgets/auth_buttons.dart';
 import '../../app/app_theme.dart';
-import '../widgets/auth_buttons.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
-  static const String routeName = 'sign-in';
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
+  static const String routeName = 'sign-up';
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   bool _isLoading = false;
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
-  Future<void> _handleSignIn() async {
+  Future<void> _handleSignUp() async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() {
@@ -37,21 +38,23 @@ class _SignInScreenState extends State<SignInScreen> {
     });
 
     try {
-      await AuthService.instance.signInWithEmailAndPassword(
+      await AuthService.instance.signUpWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
       if (mounted) {
-        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          HomeScreen.routeName,
+          (route) => false,
+        );
       }
     } on FirebaseAuthException catch (e) {
-      String message = "Authentication failed. Please try again.";
-      if (e.code == 'user-not-found') {
-        message = 'No user found for that email.';
-      } else if (e.code == 'wrong-password') {
-        message = 'Wrong password provided.';
-      } else if (e.code == 'invalid-credential') {
-        message = 'Invalid email or password.';
+      String message = "Registration failed. Please try again.";
+      if (e.code == 'weak-password') {
+        message = 'The password provided is too weak.';
+      } else if (e.code == 'email-already-in-use') {
+        message = 'The account already exists for that email.';
       } else if (e.code == 'invalid-email') {
         message = 'The email address is not valid.';
       }
@@ -63,10 +66,7 @@ class _SignInScreenState extends State<SignInScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Error: ${e.toString()}"),
-            backgroundColor: Colors.red,
-          ),
+          SnackBar(content: Text("Error: ${e.toString()}"), backgroundColor: Colors.red),
         );
       }
     } finally {
@@ -112,9 +112,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         if (value == null || value.trim().isEmpty) {
                           return 'Please enter your email';
                         }
-                        if (!RegExp(
-                          r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
-                        ).hasMatch(value.trim())) {
+                        if (!RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value.trim())) {
                           return 'Please enter a valid email address';
                         }
                         return null;
@@ -135,62 +133,74 @@ class _SignInScreenState extends State<SignInScreen> {
                       obscureText: true,
                       hintText: "*****",
                       iconData: Icons.lock_outline,
-                      textInputAction: TextInputAction.done,
+                      textInputAction: TextInputAction.next,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your password';
                         }
+                        if (value.length < 6) {
+                          return 'Password must be at least 6 characters long';
+                        }
                         return null;
                       },
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {
-                          // Forgot password logic can go here
-                        },
-                        child: const Text(
-                          "Forgot Password?",
-                          style: TextStyle(
-                            color: AppTheme.primaryBlue,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      "Confirm Password",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.textColor,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 8),
+                    CustomTextFormField(
+                      controller: _confirmPasswordController,
+                      obscureText: true,
+                      hintText: "*****",
+                      iconData: Icons.lock_outline,
+                      textInputAction: TextInputAction.done,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please confirm your password';
+                        }
+                        if (value != _passwordController.text) {
+                          return 'Passwords do not match';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 32),
                     if (_isLoading)
                       const Center(child: CircularProgressIndicator())
                     else
                       AuthButton(
-                        onPressed: _handleSignIn,
+                        onPressed: _handleSignUp,
                         backgroundColor: AppTheme.primaryBlue,
-                        label: "Sign In",
-                        icon: Icons.login,
+                        label: "Register",
+                        icon: Icons.person_add_alt_1,
                       ),
-                    const SizedBox(height: 32),
+                    const SizedBox(height: 24),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(child: Divider(color: Colors.grey.shade300)),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text(
-                            "or",
-                            style: TextStyle(color: Colors.grey.shade500),
+                        Text(
+                          "Already have an account? ",
+                          style: TextStyle(color: Colors.grey.shade600),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text(
+                            "Sign In",
+                            style: TextStyle(
+                              color: AppTheme.primaryBlue,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                        Expanded(child: Divider(color: Colors.grey.shade300)),
                       ],
-                    ),
-                    const SizedBox(height: 32),
-                    AuthButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, SignUpScreen.routeName);
-                      },
-                      backgroundColor: Colors.white,
-                      textColor: AppTheme.textColor,
-                      label: "Create Account",
-                      icon: Icons.person_add_alt_1,
                     ),
                   ],
                 ),

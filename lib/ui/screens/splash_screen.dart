@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lecture_link/ui/screens/sign_in_screen.dart';
+import 'package:lecture_link/data/services/auth_service.dart';
+import 'package:lecture_link/ui/screens/home_screen.dart';
+import '../widgets/get_started_button.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,6 +13,20 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _checkAuth();
+  }
+
+  void _checkAuth() {
+    Future.delayed(const Duration(milliseconds: 1500), () {
+      if (mounted && AuthService.instance.currentUser != null) {
+        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,12 +44,14 @@ class _SplashScreenState extends State<SplashScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, SignInScreen.routeName);
-              },
-              child: const Text("Login"),
+            const SizedBox(height: 16),
+            Text(
+              "Academic Management System",
+              style: const TextStyle(color: Colors.white, fontSize: 16),
             ),
+            const SizedBox(height: 100),
+
+            const GetStartedButton(),
           ],
         ),
       ),
