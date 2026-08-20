@@ -87,128 +87,153 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
           Expanded(
             child: records.isEmpty
                 ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.event_busy, size: 48, color: Color(0xFFCBD5E1)),
-                  SizedBox(height: 12),
-                  Text(
-                    "No attendance records yet",
-                    style: TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
-                  ),
-                ],
-              ),
-            )
-                : ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: records.length,
-              itemBuilder: (context, index) {
-                final record = records[index];
-                final presentCount = record.records.where((r) => r.present).length;
-                final total = record.records.length;
-                final absentCount = total - presentCount;
-                final pct = total > 0 ? ((presentCount / total) * 100).round() : 0;
-
-                final date = DateTime.tryParse(record.date) ?? DateTime.now();
-
-                Color pctColor;
-                if (pct >= 75) {
-                  pctColor = const Color(0xFF16A34A);
-                } else if (pct >= 50) {
-                  pctColor = const Color(0xFFF59E0B);
-                } else {
-                  pctColor = const Color(0xFFEF4444);
-                }
-
-                return InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AttendanceSummaryScreen.routeName,
-                      arguments: currentCourseId,
-                    );
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 10),
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: const Color(0xFFE2E8F0)),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color(0x0A0F172A),
-                          blurRadius: 3,
-                          offset: Offset(0, 1),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(Icons.event_busy, size: 48, color: Color(0xFFCBD5E1)),
+                        SizedBox(height: 12),
+                        Text(
+                          "No attendance records yet",
+                          style: TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
                         ),
                       ],
                     ),
-                    child: Row(
-                      children: [
-                        // Date Icon Box
-                        Container(
-                          width: 42,
-                          height: 42,
+                  )
+                : ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: records.length,
+                    itemBuilder: (context, index) {
+                      final record = records[index];
+                      final presentCount = record.records.where((r) => r.present).length;
+                      final total = record.records.length;
+                      final absentCount = total - presentCount;
+                      final pct = total > 0 ? ((presentCount / total) * 100).round() : 0;
+
+                      final date = DateTime.tryParse(record.date) ?? DateTime.now();
+
+                      Color pctColor;
+                      if (pct >= 75) {
+                        pctColor = const Color(0xFF16A34A);
+                      } else if (pct >= 50) {
+                        pctColor = const Color(0xFFF59E0B);
+                      } else {
+                        pctColor = const Color(0xFFEF4444);
+                      }
+
+                      return InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            AttendanceSummaryScreen.routeName,
+                            arguments: currentCourseId,
+                          );
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFEFF6FF),
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "${date.day}",
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppTheme.primaryBlue,
-                                  height: 1.1,
-                                ),
-                              ),
-                              Text(
-                                _getMonthAbbr(date.month),
-                                style: const TextStyle(
-                                  fontSize: 10,
-                                  color: Color(0xFF64748B),
-                                  height: 1.0,
-                                ),
+                            border: Border.all(color: const Color(0xFFE2E8F0)),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color(0x0A0F172A),
+                                blurRadius: 3,
+                                offset: Offset(0, 1),
                               ),
                             ],
                           ),
-                        ),
-                        const SizedBox(width: 12),
-
-                        // Date & Details
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Row(
                             children: [
-                              Text(
-                                record.date,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFF0F172A),
+                              // Date Icon Box
+                              Container(
+                                width: 42,
+                                height: 42,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFEFF6FF),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "${date.day}",
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppTheme.primaryBlue,
+                                        height: 1.1,
+                                      ),
+                                    ),
+                                    Text(
+                                      _getMonthAbbr(date.month),
+                                      style: const TextStyle(
+                                        fontSize: 10,
+                                        color: Color(0xFF64748B),
+                                        height: 1.0,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 4),
-                              Row(
+                              const SizedBox(width: 12),
+
+                              // Date & Details
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      record.date,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF0F172A),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "$presentCount present",
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(0xFF16A34A),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 12),
+                                        Text(
+                                          "$absentCount absent",
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(0xFFEF4444),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              // Percentage badge
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    "$presentCount present",
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF16A34A),
+                                    "$pct%",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: pctColor,
                                     ),
                                   ),
-                                  const SizedBox(width: 12),
-                                  Text(
-                                    "$absentCount absent",
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFFEF4444),
+                                  const Text(
+                                    "attended",
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: Color(0xFF94A3B8),
                                     ),
                                   ),
                                 ],
@@ -216,34 +241,9 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                             ],
                           ),
                         ),
-
-                        // Percentage badge
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              "$pct%",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: pctColor,
-                              ),
-                            ),
-                            const Text(
-                              "attended",
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Color(0xFF94A3B8),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           ),
         ],
       ),

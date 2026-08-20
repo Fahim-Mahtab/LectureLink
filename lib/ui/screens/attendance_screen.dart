@@ -281,24 +281,24 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 onPressed: students.isEmpty
                     ? null
                     : () {
-                  final record = AttendanceRecord(
-                    id: 'a_${DateTime.now().millisecondsSinceEpoch}',
-                    date: dateStr,
-                    courseId: currentCourseId,
-                    records: students.map((s) {
-                      return AttendanceItem(
-                        studentId: s.id,
-                        present: _attendanceMap[s.id] ?? false,
-                      );
-                    }).toList(),
-                  );
-                  attendanceProvider.saveAttendanceRecord(record);
+                        final record = AttendanceRecord(
+                          id: 'a_${DateTime.now().millisecondsSinceEpoch}',
+                          date: dateStr,
+                          courseId: currentCourseId,
+                          records: students.map((s) {
+                            return AttendanceItem(
+                              studentId: s.id,
+                              present: _attendanceMap[s.id] ?? false,
+                            );
+                          }).toList(),
+                        );
+                        attendanceProvider.saveAttendanceRecord(record);
 
-                  Navigator.pushNamed(
-                    context,
-                    AttendanceHistoryScreen.routeName,
-                  );
-                },
+                        Navigator.pushNamed(
+                          context,
+                          AttendanceHistoryScreen.routeName,
+                        );
+                      },
                 icon: const Icon(Icons.save),
                 label: const Text("Save Attendance"),
                 style: ElevatedButton.styleFrom(
@@ -318,12 +318,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   }
 
   Widget _buildStatCard(
-      String label,
-      String value,
-      Color color,
-      Color bg,
-      IconData icon,
-      ) {
+    String label,
+    String value,
+    Color color,
+    Color bg,
+    IconData icon,
+  ) {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),

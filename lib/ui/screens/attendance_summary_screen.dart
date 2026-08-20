@@ -52,7 +52,7 @@ class _AttendanceSummaryScreenState extends State<AttendanceSummaryScreen> {
       int attendedCount = 0;
       for (var record in records) {
         final item = record.records.firstWhere(
-              (r) => r.studentId == student.id,
+          (r) => r.studentId == student.id,
           orElse: () => rItem(student.id, false),
         );
         if (item.present) {
