@@ -17,6 +17,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -24,6 +25,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -41,6 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       await AuthService.instance.signUpWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
+        name: _nameController.text.trim(),
       );
       if (mounted) {
         Navigator.pushNamedAndRemoveUntil(
@@ -93,6 +96,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const Text(
+                      "User Name",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.textColor,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    CustomTextFormField(
+                      controller: _nameController,
+                      hintText: "e.g. Dr. Sarah Ahmed",
+                      iconData: Icons.person_outline,
+                      textInputAction: TextInputAction.next,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Please enter your user name';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
                     const Text(
                       "Email Address",
                       style: TextStyle(
