@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "794049474089",
+    "project_id": "lecture-link-2026",
+    "storage_bucket": "lecture-link-2026.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794049474089:android:b9341e93bff4a7983ab638",
+        "android_client_info": {
+          "package_name": "com.example.lecture_link"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmYXslaVS_NutlqriR8XYk2bQy4HaeqsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
