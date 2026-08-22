@@ -147,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          user?.email ?? "dr.sarah@university.edu",
+                          user?.email ?? "",
                           style: TextStyle(
                             fontSize: 13,
                             color: Colors.white.withValues(alpha: 0.8),
@@ -260,7 +260,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: BoxDecoration(
           border: Border(
-            right: (!isLast) ? const BorderSide(color: Color(0xFFE2E8F0)) : BorderSide.none,
+            right: (!isLast) ? const BorderSide(color: Color.fromARGB(255, 61, 118, 193)) : BorderSide.none,
           ),
         ),
         child: Column(

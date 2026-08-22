@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lecture_link/data/services/auth_service.dart';
-import 'package:lecture_link/ui/screens/home_screen.dart';
+import 'package:lecture_link/ui/screens/main_screen.dart';
 import 'package:lecture_link/ui/screens/sign_up_screen.dart';
 import 'package:lecture_link/ui/widgets/appbar_banner.dart';
 import 'package:lecture_link/ui/widgets/custom_text_form_field.dart';
@@ -42,7 +42,7 @@ class _SignInScreenState extends State<SignInScreen> {
         password: _passwordController.text.trim(),
       );
       if (mounted) {
-        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+        Navigator.pushReplacementNamed(context, MainScreen.routeName);
       }
     } on FirebaseAuthException catch (e) {
       String message = "Authentication failed. Please try again.";

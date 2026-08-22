@@ -23,7 +23,7 @@ class DashboardScreen extends StatelessWidget {
 
     final displayName = (user?.displayName != null && user!.displayName!.trim().isNotEmpty)
         ? user.displayName!.trim()
-        : (user?.email ?? "Dr. Sarah Ahmed");
+        : (user?.email ?? '');
 
     final initials = displayName.contains(' ')
         ? displayName.split(' ').take(2).map((e) => e.isNotEmpty ? e[0] : '').join('').toUpperCase()
@@ -47,13 +47,6 @@ class DashboardScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Good morning,",
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: const Color(0xFF64748B),
-                                  ),
-                            ),
-                            const SizedBox(height: 2),
                             Text(
                               displayName,
                               style: Theme.of(context).textTheme.headlineMedium?.copyWith(

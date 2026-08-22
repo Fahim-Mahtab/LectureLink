@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lecture_link/data/services/auth_service.dart';
-import 'package:lecture_link/ui/screens/home_screen.dart';
+import 'package:lecture_link/ui/screens/main_screen.dart';
 import '../widgets/get_started_button.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void _checkAuth() {
     Future.delayed(const Duration(milliseconds: 1500), () {
       if (mounted && AuthService.instance.currentUser != null) {
-        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+        Navigator.pushReplacementNamed(context, MainScreen.routeName);
       }
     });
   }

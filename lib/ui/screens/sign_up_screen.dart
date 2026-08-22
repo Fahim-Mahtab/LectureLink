@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lecture_link/data/services/auth_service.dart';
-import 'package:lecture_link/ui/screens/home_screen.dart';
+import 'package:lecture_link/ui/screens/main_screen.dart';
 import 'package:lecture_link/ui/widgets/appbar_banner.dart';
 import 'package:lecture_link/ui/widgets/custom_text_form_field.dart';
 import 'package:lecture_link/ui/widgets/auth_buttons.dart';
@@ -48,7 +48,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       if (mounted) {
         Navigator.pushNamedAndRemoveUntil(
           context,
-          HomeScreen.routeName,
+          MainScreen.routeName,
           (route) => false,
         );
       }

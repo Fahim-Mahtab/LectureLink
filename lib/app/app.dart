@@ -10,7 +10,6 @@ import 'package:lecture_link/providers/routine_provider.dart';
 import 'package:lecture_link/ui/screens/splash_screen.dart';
 import 'package:lecture_link/ui/screens/sign_in_screen.dart';
 import 'package:lecture_link/ui/screens/sign_up_screen.dart';
-import 'package:lecture_link/ui/screens/home_screen.dart';
 import 'package:lecture_link/ui/screens/main_screen.dart';
 import 'package:lecture_link/ui/screens/dashboard_screen.dart';
 import 'package:lecture_link/ui/screens/courses_screen.dart';
@@ -48,7 +47,6 @@ class LectureLink extends StatelessWidget {
           SplashScreen.routeName: (_) => const SplashScreen(),
           SignInScreen.routeName: (_) => const SignInScreen(),
           SignUpScreen.routeName: (_) => const SignUpScreen(),
-          HomeScreen.routeName: (_) => const HomeScreen(),
           MainScreen.routeName: (_) => const MainScreen(),
           DashboardScreen.routeName: (_) => const DashboardScreen(),
           CoursesScreen.routeName: (_) => const CoursesScreen(),

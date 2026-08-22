@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lecture_link/data/services/auth_service.dart';
-import 'package:lecture_link/ui/screens/home_screen.dart';
+import 'package:lecture_link/ui/screens/main_screen.dart';
 import 'package:lecture_link/ui/screens/sign_in_screen.dart';
 
 class GetStartedButton extends StatelessWidget {
@@ -22,7 +22,7 @@ class GetStartedButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(40.0),
           onTap: () {
             final nextRoute = AuthService.instance.currentUser != null
-                ? HomeScreen.routeName
+                ? MainScreen.routeName
                 : SignInScreen.routeName;
             Navigator.pushReplacementNamed(
               context,
